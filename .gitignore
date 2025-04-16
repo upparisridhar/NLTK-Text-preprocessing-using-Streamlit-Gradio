@@ -1,4 +1,4 @@
-.venv_training_312
+.venv_training_312/
 __pycache__/
 *.pyc
 .gradio
