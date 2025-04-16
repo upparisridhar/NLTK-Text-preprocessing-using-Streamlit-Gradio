@@ -1,0 +1,10 @@
+.venv_training_312
+__pycache__/
+*.pyc
+.gradio
+.ipynb_checkpoints/
+# Exclude temporary files
+*.tmp
+*.swp
+# Exclude logs
+*.log
