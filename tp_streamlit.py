@@ -1,10 +1,17 @@
 import streamlit as st
 import re
+import json
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords, wordnet
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 from nltk import pos_tag
+
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 
 def text_pre(text):
     text = text.lower()
@@ -21,6 +28,7 @@ def text_pre(text):
 
     stemmer = PorterStemmer()
     stem_tokens = [stemmer.stem(token) for token in filt_tokens]
+
     return {
         "original": tokens,
         "filtered": filt_tokens,
@@ -29,12 +37,21 @@ def text_pre(text):
         "pos_tags": pos_tags
     }
 
+st.title("Text Preprocessing App")
 
-st.title("🧹 Text Preprocessing App")
 user_input = st.text_area("Enter your sentence:")
 
 if user_input:
     result = text_pre(user_input)
-    for k, v in result.items():
-        st.subheader(k)
-        st.write(v)
+    
+    st.subheader("🧾 Output (JSON format)")
+    st.json(result)
+
+    # Convert result to JSON string for download
+    json_str = json.dumps(result, indent=4)
+    st.download_button(
+        label="📥 Download Result as JSON",
+        data=json_str,
+        file_name="text_preprocessing_result.json",
+        mime="application/json"
+    )
